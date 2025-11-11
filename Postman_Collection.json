@@ -1,0 +1,139 @@
+{
+  "info": {
+    "name": "IoT Material Identification API",
+    "description": "API endpoints for ESP32-CAM material identification system",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5001/health",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5001",
+          "path": ["health"]
+        },
+        "description": "Check if the backend server is running and model is loaded"
+      }
+    },
+    {
+      "name": "Test Endpoint",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5001/identify/test",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5001",
+          "path": ["identify", "test"]
+        },
+        "description": "Test endpoint to verify API is accessible"
+      }
+    },
+    {
+      "name": "Get Latest Prediction",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5001/prediction",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5001",
+          "path": ["prediction"]
+        },
+        "description": "Get the latest prediction from the real-time stream monitoring"
+      }
+    },
+    {
+      "name": "Identify Material (Binary Image)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "image/jpeg",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "file",
+          "file": {}
+        },
+        "url": {
+          "raw": "http://localhost:5001/identify/material",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5001",
+          "path": ["identify", "material"]
+        },
+        "description": "Identify material from a JPEG image (binary upload)\n\nSteps:\n1. Select 'Body' tab\n2. Choose 'binary'\n3. Click 'Select File' and choose a JPEG image\n4. Send the request\n\nExpected Response:\n{\n  \"success\": true,\n  \"materialType\": \"Plastic Bottle\",\n  \"confidence\": 0.95,\n  \"action\": \"sort_plastic\",\n  \"allPredictions\": {\n    \"Plastic Bottle\": 0.95,\n    \"Tin Can\": 0.03,\n    \"Other\": 0.02\n  }\n}"
+      }
+    },
+    {
+      "name": "Identify Material (Base64 JSON)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"image\": \"YOUR_BASE64_ENCODED_IMAGE_HERE\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5001/identify/material",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5001",
+          "path": ["identify", "material"]
+        },
+        "description": "Identify material from a base64 encoded image\n\nSteps:\n1. Run: python encode_image_base64.py <image.jpg>\n2. Copy the base64 string\n3. Paste it in the JSON body replacing YOUR_BASE64_ENCODED_IMAGE_HERE\n4. Send the request\n\nExpected Response:\n{\n  \"success\": true,\n  \"materialType\": \"Tin Can\",\n  \"confidence\": 0.89,\n  \"action\": \"sort_tin_can\",\n  \"allPredictions\": {\n    \"Plastic Bottle\": 0.05,\n    \"Tin Can\": 0.89,\n    \"Other\": 0.06\n  }\n}"
+      }
+    },
+    {
+      "name": "Bin Update (Optional)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"bin_type\": \"plastic\",\n  \"level\": 75,\n  \"status\": \"ok\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5001/bin/update",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5001",
+          "path": ["bin", "update"]
+        },
+        "description": "Send bin level updates (optional endpoint for future use)"
+      }
+    }
+  ]
+}

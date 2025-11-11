@@ -1,0 +1,3 @@
+0 Plastic Bottle
+1 Tin Can
+2 Other

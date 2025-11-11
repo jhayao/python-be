@@ -1,0 +1,14 @@
+# Production requirements for VPS deployment (1vCPU, 1GB RAM)
+# Optimized for minimal resource usage
+
+Flask==3.0.0
+flask-cors==4.0.0
+numpy==1.24.3
+tensorflow==2.15.0  # Or use tensorflow-lite for even less memory
+Pillow==10.1.0
+
+# Production server (recommended for VPS)
+gunicorn==21.2.0
+
+# Optional: For monitoring and performance
+psutil==5.9.6
